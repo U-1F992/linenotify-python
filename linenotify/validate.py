@@ -170,7 +170,7 @@ def _get_image_from(url: str) -> cv2.Mat:
         with request.urlopen(url) as res:
             buf = np.frombuffer(res.read(), dtype=np.uint8)
             mat = cv2.imdecode(buf, cv2.IMREAD_UNCHANGED)
-    except request.HTTPError:
+    except IOError:
         raise ValidateError("URL not found")
     except:
         raise UnknownError()

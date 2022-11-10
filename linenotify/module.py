@@ -43,7 +43,7 @@ class Service:
                 headers=self.__header,
                 **payload
             )
-        except requests.exceptions.HTTPError:
+        except requests.exceptions.RequestException:
             raise RequestFailedError()
         except:
             raise UnknownError()
@@ -61,7 +61,7 @@ class Service:
                 "https://notify-api.line.me/api/status",
                 headers=self.__header
             )
-        except requests.exceptions.HTTPError:
+        except requests.exceptions.RequestException:
             raise RequestFailedError()
         except:
             raise UnknownError()
