@@ -33,14 +33,14 @@ if __name__ == "__main__":
 
     print("notify text & sticker")
     print_status(service.notify("text & sticker", (446, 1988)))
-    sleep(10)
+    sleep(2)
 
-    # print("notify text & image_url")
-    # print_status(service.notify("text & image_url", ("https://sample.com/thumb.jpg", "https://sample.com/full.jpeg")))
-    # sleep(10)
+    print("notify text & image_url")
+    print_status(service.notify("text & image_url", ("https://sample.com/thumb.jpg", "https://sample.com/full.jpeg")))
+    sleep(2)
 
     print("notify without notification")
     print_status(service.notify("notify without notification", notification_disabled=True))
-    sleep(10)
+    sleep(2)
 
     service.notify("with notification")
