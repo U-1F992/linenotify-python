@@ -1,6 +1,7 @@
 from io import BytesIO
 from os import path
 from typing import Optional, Tuple, Union
+from typing_extensions import TypedDict
 from urllib import request
 
 import cv2
@@ -9,6 +10,21 @@ import numpy as np
 
 from .exception import UnknownError, ValidateError
 
+class ParamRequired(TypedDict):
+    message: str
+    notificationDisabled: bool
+class Param(ParamRequired, total=False):
+    stickerPackageId: int
+    stickerId: int
+    imageThumbnail: str
+    imageFullsize: str
+class ImageFile(TypedDict):
+    imageFile: bytes
+
+class PayloadRequired(TypedDict):
+    param: Param
+class Payload(PayloadRequired, total=False):
+    files: ImageFile
 
 def validate_token(token: str):
     """
@@ -17,36 +33,65 @@ def validate_token(token: str):
     return {"Authorization": f"Bearer {token}"}
 
 
-def validate_payloads(message: str, attachment: Optional[Union[Tuple[int, int], Tuple[str, str], cv2.Mat]], notification_disabled: bool):
+def validate_payload(message: str, attachment: Optional[Union[Tuple[int, int], Tuple[str, str], cv2.Mat]], notification_disabled: bool) -> Payload:
     """
     Validates the arguments and generates the payload dictionary
     """
-    _dis = {"notificationDisabled": notification_disabled}
-
-    if len(message) == 0 or 1000 < len(message):
-        raise ValidateError("1 characters min, 1000 characters max")
-    _msg = {"message": message, **_dis}
+    _param: Param = {**_message(message), **_notification_disabled(notification_disabled)}
 
     if attachment is None:
-        return {"params": _msg}
+        ret: Payload = {
+            "params": _param
+        }
+        return ret
 
     elif isinstance(attachment, np.ndarray):
-        return {
-            "params": _msg,
+        ret: Payload = {
+            "params": _param,
             "files": _image(attachment)
         }
+        return ret
 
     elif isinstance(attachment[0], int) and isinstance(attachment[1], int):
-        _att = {"stickerPackageId": attachment[0], "stickerId": attachment[1]}
+        ret: Payload = {
+            "params": {
+                **_param,
+                "stickerPackageId": attachment[0],
+                "stickerId": attachment[1]
+            }
+        }
+        return ret
 
     elif isinstance(attachment[0], str) and isinstance(attachment[1], str):
-        _att = {**_image_url(attachment[0], "thumbnail"), **_image_url(attachment[1], "fullsize")}
+        ret: Payload = {
+            "params": {
+                **_param,
+                **_image_url(attachment[0], "thumbnail"),
+                **_image_url(attachment[1], "fullsize")
+            }
+        }
+        return ret
 
     else:
-        return {"params": _msg}
+        raise ValidateError("Invalid type of attachment")
 
-    return {"params": {**_msg, **_att}}
 
+def _notification_disabled(notification_disabled: bool):
+    """
+    Validate notification_disabled
+    """
+    if not isinstance(notification_disabled, bool):
+        raise ValidateError("notification_disabled must be bool")
+    return {"notificationDisabled": notification_disabled}
+
+
+def _message(message: str):
+    """
+    Validate message
+    """
+    if len(message) == 0 or 1000 < len(message):
+        raise ValidateError("1 characters min, 1000 characters max")
+    return {"message": message}
 
 def _image(image: cv2.Mat):
     """

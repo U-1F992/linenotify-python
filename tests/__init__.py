@@ -6,7 +6,7 @@ import cv2
 import linenotify as ln
 
 
-def print_status(status: ln._Status):
+def print_status(status: ln.Status):
     print("--- status ---")
     print(status.limit)
     print(status.image_limit)
@@ -17,7 +17,7 @@ def print_status(status: ln._Status):
 
 if __name__ == "__main__":
 
-    service = ln.get_service(environ['LINENOTIFY_TOKEN'])
+    service = ln.Service(environ['LINENOTIFY_TOKEN'])
 
     print("show status")
     print_status(service.status())

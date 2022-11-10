@@ -5,10 +5,10 @@ import cv2
 import requests
 
 from .exception import RequestFailedError, UnknownError
-from .validate import validate_payloads, validate_token
+from .validate import validate_payload, validate_token
 
 
-class _Status:
+class Status:
     """
     Represents connection status
     """
@@ -68,19 +68,22 @@ class _Status:
         return self.__reset
 
 
-class _Service:
+class Service:
     """
     Represents the LINE Notify service
     """
 
     def __init__(self, token: str, tz: timezone = datetime.utcnow().astimezone().tzinfo) -> None:
-        """
-        Represents the LINE Notify service
+        """Represents the LINE Notify service
+
+        Args:
+            token (str): Token
+            tz (timezone, optional):Time Zone. If omitted, attempts to get the standard time zone of system. Defaults to datetime.utcnow().astimezone().tzinfo.
         """
         self.__header = validate_token(token)
         self.__tz = tz if tz is not None else timezone.utc
 
-    def notify(self, message: str, attachment: Optional[Union[Tuple[int, int], Tuple[str, str], cv2.Mat]] = None, notification_disabled=False) -> _Status:
+    def notify(self, message: str, attachment: Optional[Union[Tuple[int, int], Tuple[str, str], cv2.Mat]] = None, notification_disabled=False) -> Status:
         """Sends notifications to users or groups that are related to an access token.
 
         Args:
@@ -89,34 +92,21 @@ class _Service:
             notification_disabled (bool, optional): Whether to disable push notifications for users. Defaults to False.
 
         Returns:
-            _Status: Connection status
+            Status: Connection status
         """
-        return _Status(requests.post(
+        return Status(requests.post(
             "https://notify-api.line.me/api/notify",
             headers=self.__header,
-            **validate_payloads(message, attachment, notification_disabled)
+            **validate_payload(message, attachment, notification_disabled)
         ), self.__tz)
 
-    def status(self) -> _Status:
+    def status(self) -> Status:
         """An API for checking connection status.
 
         Returns:
-            _Status: Connection status
+            Status: Connection status
         """
-        return _Status(requests.get(
+        return Status(requests.get(
             "https://notify-api.line.me/api/status",
             headers=self.__header
         ), self.__tz)
-
-
-def get_service(token: str, tz: Optional[timezone] = None) -> _Service:
-    """Get a LINE Notify service from token
-
-    Args:
-        token (str): Token
-        tz (Optional[timezone], optional): Time Zone. If omitted, attempts to get the standard time zone of system. Defaults to None.
-
-    Returns:
-        _Service: LINE Notify service
-    """
-    return _Service(token) if tz is None else _Service(token, tz)
