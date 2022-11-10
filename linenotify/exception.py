@@ -24,7 +24,7 @@ class RequestFailedError(LINENotifyException):
 
 class InvalidRequestError(LINENotifyException):
     """
-    Raised when an invalid request was given
+    Raised when an invalid request was given.
     """
 
     def __init__(self, msg="invalid request", *args, **kwargs):

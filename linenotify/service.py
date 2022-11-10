@@ -5,7 +5,8 @@ import cv2
 import requests
 
 from .exception import *
-from .validate import Status, validate_payload, validate_response, validate_token
+from .status import get_status, Status
+from .validate import validate_payload, validate_token
 
 
 class Service:
@@ -48,7 +49,7 @@ class Service:
         except:
             raise UnknownError()
 
-        return validate_response(res, self.__tz)
+        return get_status(res, self.__tz)
 
     def status(self) -> Status:
         """An API for checking connection status.
@@ -66,4 +67,4 @@ class Service:
         except:
             raise UnknownError()
 
-        return validate_response(res, self.__tz)
+        return get_status(res, self.__tz)
