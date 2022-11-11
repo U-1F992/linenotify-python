@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "linenotify"
+name = "linenotify-python"
 version = "0.1.0"
 description = "LINE notify Web API wrapper"
 license = "MIT License"
 authors = ["Koutaro Mukai <mukai.k1011k@outlook.jp>"]
-repository = "https://github.com/mukai1011/linenotify"
+repository = "https://github.com/mukai1011/linenotify-python"
 readme = "README.md"
 
 [tool.poetry.dependencies]

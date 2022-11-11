@@ -1,4 +1,4 @@
-# linenotify
+# linenotify-python
 
 LINE notify Web API wrapper
 
