@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "linenotify-python"
-version = "0.1.0"
+version = "0.1.1"
 description = "LINE notify Web API wrapper"
 license = "MIT License"
 authors = ["Koutaro Mukai <mukai.k1011k@outlook.jp>"]
