@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "linenotify"
 version = "0.1.0"
-description = ""
+description = "LINE notify Web API wrapper"
 authors = ["Koutaro Mukai <mukai.k1011k@outlook.jp>"]
 readme = "README.md"
 
