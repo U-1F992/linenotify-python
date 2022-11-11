@@ -58,6 +58,7 @@ class Service:
 
         return get_status(res, self.__tz)
 
+    @property
     def status(self) -> Status:
         """An API for checking connection status.
 
