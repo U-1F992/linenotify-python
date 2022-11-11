@@ -72,7 +72,7 @@ def validate_payload(message: str, attachment: cv2.Mat | tuple[str, str] | tuple
         raise ValidateError("Invalid type of attachment")
 
 
-def _notification_disabled(notification_disabled: bool) -> dict[Literal["notificationDisabled"], bool]:
+def _notification_disabled(notification_disabled: bool):
     """
     Validate notification_disabled
     """
@@ -81,7 +81,7 @@ def _notification_disabled(notification_disabled: bool) -> dict[Literal["notific
     return {"notificationDisabled": notification_disabled}
 
 
-def _message(message: str) -> dict[Literal["message"], str]:
+def _message(message: str):
     """
     Validate message
     """
@@ -92,7 +92,7 @@ def _message(message: str) -> dict[Literal["message"], str]:
     return {"message": message}
 
 
-def _image(image: cv2.Mat) -> dict[Literal["imageFile"], bytes]:
+def _image(image: cv2.Mat):
     """
     Validate image
     """
@@ -125,7 +125,7 @@ def _get_image_from(url: str) -> cv2.Mat:
     return mat
 
 
-def _image_url(url: str, type_: Literal["thumbnail", "fullsize"]) -> dict[Literal["imageThumbnail", "imageFullsize"], str]:
+def _image_url(url: str, type_: Literal["thumbnail", "fullsize"]):
     """
     Validate image from URL
     """
