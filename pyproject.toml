@@ -6,6 +6,9 @@ license = "MIT License"
 authors = ["Koutaro Mukai <mukai.k1011k@outlook.jp>"]
 repository = "https://github.com/mukai1011/linenotify-python"
 readme = "README.md"
+packages = [
+    {include = "linenotify"}
+]
 
 [tool.poetry.dependencies]
 python = ">=3.7,<3.11"
