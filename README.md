@@ -4,6 +4,12 @@ LINE notify Web API wrapper
 
 Plenty of [internal validations](./linenotify/validations.py), easy [error handling](./linenotify/exceptions.py).
 
+## Install
+
+```
+pip install linenotify-python
+```
+
 ## Usage
 
 ```python
