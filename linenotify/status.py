@@ -1,7 +1,13 @@
 from __future__ import annotations
 from datetime import datetime, timezone
 
-from pydantic.dataclasses import dataclass
+# https://github.com/python/mypy/issues/6239
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from dataclasses import dataclass
+else:
+    from pydantic.dataclasses import dataclass
+
 import requests
 
 from .exceptions import *

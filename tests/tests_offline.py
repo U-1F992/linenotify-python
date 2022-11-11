@@ -13,7 +13,7 @@ TOKEN = environ['LINENOTIFY_TOKEN']
 def test_status():
     service = ln.Service(TOKEN)
     with pytest.raises(ln.RequestFailedError):
-        service.status()
+        service.status
 
 
 def test_notify():
