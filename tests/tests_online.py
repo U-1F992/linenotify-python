@@ -12,7 +12,7 @@ TOKEN = environ['LINENOTIFY_TOKEN']
 
 def test_status():
     service = ln.Service(TOKEN)
-    service.status()
+    service.status
 
 
 @pytest.mark.parametrize(("message, attachment, notification_disabled"), [

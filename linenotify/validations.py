@@ -9,10 +9,10 @@ import cv2
 import numpy as np
 from PIL import Image
 
-from .exception import *
+from .exceptions import *
 
 
-def validate_token(token: str) -> dict[Literal["Authorization"], str]:
+def validate_token(token: str):
     """
     Validate the token
     """
@@ -20,6 +20,7 @@ def validate_token(token: str) -> dict[Literal["Authorization"], str]:
         raise ValidateError("token must be str")
     elif len(token) == 0:
         raise ValidateError("token is one or more characters")
+
     return {"Authorization": f"Bearer {token}"}
 
 

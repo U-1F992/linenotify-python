@@ -33,7 +33,7 @@ class InvalidRequestError(LINENotifyException):
 
 class UnknownError(LINENotifyException):
     """
-    Raised in case of failure with unknown cause
+    Raised in case of failure with unknown cause.
     """
 
     def __init__(self, msg="unknown error occurred", *args, **kwargs):
