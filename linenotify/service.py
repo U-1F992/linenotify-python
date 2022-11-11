@@ -4,9 +4,16 @@ from datetime import datetime, timezone
 import cv2
 import requests
 
-from .exception import *
-from .status import get_status, Status
-from .validate import validate_payload, validate_token
+from .exceptions import *
+from .status import Status, get_status
+from .validations import validate_payload, validate_token
+
+
+def _standard_timezone():
+    tz = datetime.utcnow().astimezone().tzinfo
+    if not isinstance(tz, timezone):
+        tz = timezone.utc
+    return tz
 
 
 class Service:
@@ -14,17 +21,17 @@ class Service:
     Represents the LINE Notify service
     """
 
-    def __init__(self, token: str, tz: timezone = datetime.utcnow().astimezone().tzinfo) -> None:
+    def __init__(self, token: str, tz: timezone = _standard_timezone()) -> None:
         """Represents the LINE Notify service
 
         All documentation can be found [here](https://notify-bot.line.me/doc/en/)
 
         Args:
             token (str): Token
-            tz (timezone, optional):Time Zone. If omitted, attempts to get the standard time zone of system. Defaults to datetime.utcnow().astimezone().tzinfo.
+            tz (timezone, optional):Time Zone. If omitted, attempts to get the standard timezone of system. Defaults to _standard_timezone().
         """
         self.__header = validate_token(token)
-        self.__tz = tz if tz is not None else timezone.utc
+        self.__tz = tz
 
     def notify(self, message: str, attachment: cv2.Mat | tuple[str, str] | tuple[int, int] | None = None, notification_disabled=False) -> Status:
         """Sends notifications to users or groups that are related to an access token.

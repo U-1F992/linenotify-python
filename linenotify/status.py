@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from pydantic.dataclasses import dataclass
 import requests
 
-from .exception import *
+from .exceptions import *
 
 
 @dataclass(frozen=True)
@@ -56,6 +56,12 @@ def get_status(res: requests.Response, tz: timezone) -> Status:
         raise InvalidRequestError()
 
     try:
-        return Status(limit, image_limit, remaining, image_remaining, reset)
+        return Status(
+            limit=limit,
+            image_limit=image_limit,
+            remaining=remaining,
+            image_remaining=image_remaining,
+            reset=reset
+        )
     except:
         raise InvalidRequestError()
